@@ -66,4 +66,11 @@ public class CurrencyExchange {
 		this.port = port;
 	}
 
+	@Override
+	public String toString() {
+		return "CurrencyExchange [currencyId=" + currencyId + ", fromCurrency=" + fromCurrency + ", toCurrency="
+				+ toCurrency + ", currencyRate=" + currencyRate + "]";
+	}
+
+	
 }

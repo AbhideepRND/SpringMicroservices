@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ public class CurrencyConversionService {
 	
 	@Autowired
 	private CurrencyExchangeProxy proxy;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CurrencyConversionService.class);
 	
 	/**
 	 * 	Here we are calling the external service using the rest template provided by spring
@@ -54,7 +58,7 @@ public class CurrencyConversionService {
 	@GetMapping(path = "feign/from/{from}/to/{to}/{amount}")
 	public CurrencyConversionBean getConversionValueFeign(@PathVariable("from") String fromCurrency,
 			@PathVariable("to") String toCurrency, @PathVariable("amount") Integer amount) {
-
+		logger.info("Request currency to ->{}, from -> {} and anount -> {}",toCurrency, fromCurrency, amount );
 		CurrencyConversionBean currencyExchange = proxy.getCurrencyExchange(fromCurrency, toCurrency);
 		currencyExchange.setQuantity(currencyExchange.getCurrencyRate().multiply(BigDecimal.valueOf(amount)));
 		return currencyExchange;
